@@ -1,0 +1,29 @@
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.news-list {
+    display: none;
+
+}
+
+.news-list-title:hover .news-list {
+    display: block;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+.news-list-title>a {
+    text-decoration: none;
+}
+.news-list-title>a:hover {
+    cursor: pointer;
+}
+.news-list-title>a>h3 {
+    margin: 10px 0;
+}
+
