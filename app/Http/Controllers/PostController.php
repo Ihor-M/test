@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entity\Post;
 use App\Repositories\PostRepository;
+use App\Services\ImageUpload;
 use Illuminate\Http\Request;
 
 
@@ -47,28 +48,29 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ImageUpload $imageUpload)
     {
 //        validate data
         $this->validate($request, [
-            'author' => 'required|max:50',
-            'articleName' => 'required|max:255',
-            'articleBody' => 'required',
-            'image' => 'required|mimes:png'
+            'author'        => 'required|max:50',
+            'articleName'   => 'required|max:255',
+            'articleBody'   => 'required',
+            'image'         => 'required|image'
         ]);
+
 
         //store in database
         $posts = $this->postRepo->newPost([
-            'category' => $request->category,
-            'author' => $request->author,
-            'title' => $request->articleName,
-            'messageBody' => $request->articleBody]);
+            'category'       => $request->category,
+            'author'         => $request->author,
+            'title'          => $request->articleName,
+            'messageBody'    => $request->articleBody,
+            'image_path'     => $imageUpload->imageUpload($request->file('image'))
+        ]);
 
-        //upload image
 
-        $imageName = $posts->id . '.' .$request->file('image')->getClientOriginalExtension();
 
-        $request->file('image')->move(base_path() . '/public/images/', $imageName);
+
 
         Session::flash('success', 'The blog post was successfully save!');
 
@@ -91,6 +93,9 @@ class PostController extends Controller
         return view('blog.show')->with('posts', $posts);
     }
 
+
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -99,7 +104,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = $this->postRepo->getId($id);
+        return view('blog.edit')->with('post', $post);
     }
 
     /**
@@ -109,9 +115,26 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, ImageUpload $imageUpload)
     {
-        //
+        $this->validate($request, [
+            'author'        => 'required|max:50',
+            'articleName'   => 'required|max:255',
+            'articleBody'   => 'required',
+            'image'         => 'required|image'
+        ]);
+
+        $this->postRepo->editPost($id, [
+            'category' => $request->category,
+            'author' => $request->author,
+            'title' => $request->articleName,
+            'messageBody' => $request->articleBody,
+            'image_path' => $imageUpload->imageUpload($request->file('image'))
+        ]);
+
+
+        return redirect()->route('posts.update', $id);
+
     }
 
     /**
@@ -120,8 +143,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($postId)
     {
-        //
+        $this->postRepo->deletePost($postId);
+        return redirect()->route('myBlog');
     }
 }

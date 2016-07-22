@@ -12,6 +12,11 @@
 
 }
 
+/*.news-list-title:hover .news-list {*/
+    /*display: block;*/
+    /*-webkit-animation: fadeIn 1s;*/
+    /*animation: fadeIn 1s;*/
+/*}*/
 .news-list-title:hover .news-list {
     display: block;
     -webkit-animation: fadeIn 1s;
@@ -26,4 +31,21 @@
 .news-list-title>a>h3 {
     margin: 10px 0;
 }
+.myfooter {
+    margin-top: 50px;
+    height: 100px;
+    position: relative;
+    text-align: center;
+}
+.copyright {
+    margin-top: 70px;
+}
+.margin-bottom {
+    margin-bottom: 0;
+}
 
+.my-buttons {
+    color: black;
+    float: right;
+    margin: 10px 30px;
+}

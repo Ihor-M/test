@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Entity\Post;
-use App\Entity\User;
 use App\Repositories\PagesRepositorie;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class PagesController extends Controller
 {
@@ -24,15 +20,35 @@ class PagesController extends Controller
     public function index()
     {
         $posts = $this->pagesRopo->showPosts();
-        $carsCategories = $this->pagesRopo->showCategoryCars(['author']);
-//        $string = $this->pagesRopo->([ 'messageBody']);
-//        $substr = substr($string, 0, 5);
+        $carsCategories = $this->pagesRopo->showCategoryCars();
         $technologyCategories = $this->pagesRopo->showCategoryTechnology();
         $sportsCategories = $this->pagesRopo->showCategorySports();
+        $latestNews = $this->pagesRopo->getLatest();
 
-        return view('blog.blog-main', compact('posts', 'carsCategories', 'technologyCategories', 'sportsCategories'));   //->paginate(5);
+        return view('blog.blog-main', compact('posts', 'paginate', 'carsCategories', 'technologyCategories', 'sportsCategories', 'latestNews'));
     }
 
+    public function breakingNews()
+    {
+        $breakingNews = $this->pagesRopo->getLatest();
+
+        return view('blog.breaking-news', compact('breakingNews'));
+    }
+
+    public function carsAndVehicles()
+    {
+        $carsAndVehicles = $this->pagesRopo->showCategoryCars();
+        return view('blog.cars-and-vehicles', compact('carsAndVehicles'));
+    }
+
+    public function searchByAuthor(Request $request)
+    {
+        $searchedAuthors = $this->pagesRopo->searchByAuthorName([
+            'author' => $request->search
+        ]);
+
+        return view('blog.search-page', compact('searchedAuthors'));
+    }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -43,7 +59,7 @@ class PagesController extends Controller
 
     public function myArticles()
     {
-        $titles = $this->pagesRopo->showPosts();
+        $titles = $this->pagesRopo->showMyArticles();
 
         return view('blog.my-articles', compact('titles'));
     }

@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\Entity\Post;
+use Illuminate\Support\Facades\Cache;
 
 class PagesRepositorie
 {
@@ -20,26 +21,59 @@ class PagesRepositorie
     {
         $this->pages = $pages;
     }
+
     public function showPosts()
     {
-        $x = $this->pages->all();
-        return $x;
+        return Cache::remember('showPosts', 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->paginate(4);
+        });
+
     }
 
-    public function showCategoryCars($attributes)
+    public function showCategoryCars()
     {
-        $y = $this->pages->all()->where('category', 'Cars & Vehicles')->get($attributes);
-        return $y;
+        return Cache::remember('showCategoryCars', 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Cars & Vehicles')->limit(3)->paginate(3);
+        });
+
     }
+
     public function showCategoryTechnology()
     {
-        $i = $this->pages->all()->where('category', 'Technology');
-        return $i;
-    }
-    public function showCategorySports()
-    {
-        $z = $this->pages->all()->where('category', 'Sports');
-        return $z;
+        return Cache::remember('showCategoryTechnology', 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Technology')->limit(3)->paginate(3);
+        });
+
     }
 
+    public function showCategorySports()
+    {
+        return Cache::remember('showCategorySports', 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Sport')->limit(3)->paginate(3);
+        });
+
+    }
+
+    public function showMyArticles()
+    {
+        return Cache::remember('showMyArticles', 20, function() {
+            return $this->pages->orderBy('created_at', 'dsc')->where('author', 'Ihor Mulyk')->paginate(4);
+        });
+
+    }
+    public function getLatest()
+    {
+        return Cache::remember('getLatest', 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->limit(3)->paginate(3);
+        });
+
+    }
+
+    public function searchByAuthorName($attributes)
+    {
+        return Cache::remember('searchByAuthorName' . $attributes['author'], 20, function () use ($attributes) {
+            return $this->pages->orderBy('created_at', 'dsc')->where($attributes)->get();
+        } );
+
+    }
 }

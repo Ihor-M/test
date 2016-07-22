@@ -8,9 +8,9 @@
                 <h1>Create new article</h1>
                 <hr>
                 {{ Form::open([
-                    'route' => 'posts.store',
+                    'route'      => 'posts.store',
                     'novalidate' => 'novalidate',
-                    'files' => true,
+                    'files'      => true,
                 ]) }}
                 <div class="form-group">
                     {{ Form::label('category', 'Choose article category', ['class' => 'control-label']) }}
@@ -20,6 +20,13 @@
                         'Sport'             => 'Sport'], [
                         'class'             => 'form-control']) }}<br>
                 </div>
+                @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="form-group">
                     {{ Form::label('author', 'Author:', ['class' => 'control-label']) }}<br>
                     {{ Form::text('author', null, ['required', 'class' => 'form-control text-capitalize']) }}<br>

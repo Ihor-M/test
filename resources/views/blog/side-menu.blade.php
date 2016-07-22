@@ -1,65 +1,59 @@
 
-        <div class="list-group-item news-list-title" href="#">
-            <a><h3>Breaking news</h3></a>
+        <div class="list-group-item news-list-title">
+            <a href="{{asset(route('breaking-news'))}}"><h3>Breaking news</h3></a>
             <div class="news-list">
                 <ul class="list-group">
-                    <li class="list-group-item">
-                        <h4>First article title</h4>
-                        <p>First article body</p>
-                        <h6>Author</h6>
-                        <p>Published at:</p>
-                    </li>
-                    <li class="list-group-item">
-                        <h4>Second article title</h4>
-                        <p>Second article body</p>
-                        <h6>Author</h6>
-                        <p>Published at:</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="list-group-item news-list-title" href="#">
-            <a><h3>Cars & Vehicles</h3></a>
-            <div class="news-list">
-                <ul class="list-group">
-                @foreach($carsCategories as $carsCategory)
-                    <li class="list-group-item">
-                        <h4>{{ $carsCategory->title }}</h4>
-                        <p>{{ $carsCategory->messageBody }}</p>
-                        <h6>{{ $carsCategory->author }}</h6>
-                        <p>Published at:{{ $carsCategory->created_at }}</p>
-                        <img src=""/>
-                    </li>
-                @endforeach
-                </ul>
-            </div>
-        </div>
-        <div class="list-group-item news-list-title" href="#">
-            <a><h3>Technology</h3></a>
-            <div class="news-list">
-                <ul class="list-group">
-                    @foreach($technologyCategories as $technologyCategory)
+                    @foreach($latestNews as $latestNew)
                         <li class="list-group-item">
-                            <h4>{{ $technologyCategory->title }}</h4>
-                            <p>{{ $technologyCategory->messageBody }}</p>
-                            <h6>{{ $technologyCategory->author }}</h6>
-                            <p>Published at:{{ $technologyCategory->created_at }}</p>
-
+                            <a href="{{route('posts.show', ['posts' => $latestNew->id])}}"><h4><b>{{ $latestNew->title }}</b></h4></a>
+                            <p>{{ substr($latestNew->messageBody, 0, 200) }}</p>
+                            <h5><b>{{ $latestNew->author }}</b></h5>
+                            <span><i>Published at: {{ date('D m Y', strtotime($latestNew->created_at)) }}</i></span>
                         </li>
                     @endforeach
                 </ul>
             </div>
         </div>
-        <div class="list-group-item news-list-title" href="#">
+        <div class="list-group-item news-list-title">
+            <a href="{{asset(route('carsAndVehicles'))}}"><h3>Cars & Vehicles</h3></a>
+            <div class="news-list">
+                <ul class="list-group">
+                @foreach($carsCategories as $carsCategory)
+                    <li class="list-group-item">
+                        <a href="{{route('posts.show', ['posts' => $carsCategory->id])}}"><h4><b>{{ $carsCategory->title }}</b></h4></a>
+                        <p>{{ substr($carsCategory->messageBody, 0, 200) }}</p>
+                        <h5><b>{{ $carsCategory->author }}</b></h5>
+                        <span><i>Published at: {{ date('D m Y', strtotime($carsCategory->created_at)) }}</i></span>
+                    </li>
+                @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="list-group-item news-list-title">
+            <a><h3>Technology</h3></a>
+            <div class="news-list">
+                <ul class="list-group">
+                    @foreach($technologyCategories as $technologyCategory)
+                        <li class="list-group-item">
+                            <a href="{{route('posts.show', ['posts' => $technologyCategory->id])}}"><h4><b>{{ $technologyCategory->title }}</b></h4></a>
+                            <p>{{ substr($technologyCategory->messageBody, 0, 200) }}</p>
+                            <h5><b>{{ $technologyCategory->author }}</b></h5>
+                            <span><i>Published at: {{ date('D m Y', strtotime($technologyCategory->created_at)) }}</i></span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="list-group-item news-list-title">
             <a><h3>Sports</h3></a>
             <div class="news-list">
                 <ul class="list-group">
                     @foreach($sportsCategories as $sportsCategory)
                         <li class="list-group-item">
-                            <h4>{{ $sportsCategory->title }}</h4>
-                            <p>{{ $sportsCategory->messageBody }}</p>
-                            <h6>{{ $sportsCategory->author }}</h6>
-                            <p>Published at:{{ $sportsCategory->created_at }}</p>
+                            <a href="{{route('posts.show', ['posts' => $sportsCategory->id])}}"><h4><b>{{ $sportsCategory->title }}</b></h4></a>
+                            <p>{{ substr($sportsCategory->messageBody, 0, 200) }}</p>
+                            <h5><b>{{ $sportsCategory->author }}</b></h5>
+                            <span><i>Published at: {{ date('D m Y', strtotime($sportsCategory->created_at)) }}</i></span>
                         </li>
                     @endforeach
                 </ul>
