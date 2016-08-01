@@ -14,10 +14,6 @@
                         <article class="text-left text-capitalize">{!! $post->messageBody !!}</article>
                         <h3 class="text-capitalize text-left">Author: {!! $post->author !!}</h3>
                         <p class="text-right"><i>Published at: {{ date('D m Y', strtotime($post->created_at)) }}</i></p>
-
-                        {{--<form method="post" action="{{ route('posts.update', ['posts'=>$post->id])}}">--}}
-                            {{--<input type="submit" value="Edit post" class="btn btn-info">--}}
-                        {{--</form>--}}
                     @endforeach
                 </div>
             </div>

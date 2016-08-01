@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Entity\Post;
+
 use App\Repositories\PostRepository;
 use App\Services\ImageUpload;
 use Illuminate\Http\Request;
 
-
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -50,6 +48,7 @@ class PostController extends Controller
      */
     public function store(Request $request, ImageUpload $imageUpload)
     {
+
 //        validate data
         $this->validate($request, [
             'author'        => 'required|max:50',
@@ -58,8 +57,7 @@ class PostController extends Controller
             'image'         => 'required|image'
         ]);
 
-
-        //store in database
+//        store in database
         $posts = $this->postRepo->newPost([
             'category'       => $request->category,
             'author'         => $request->author,
@@ -67,10 +65,6 @@ class PostController extends Controller
             'messageBody'    => $request->articleBody,
             'image_path'     => $imageUpload->imageUpload($request->file('image'))
         ]);
-
-
-
-
 
         Session::flash('success', 'The blog post was successfully save!');
 

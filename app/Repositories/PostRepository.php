@@ -25,7 +25,7 @@ class PostRepository
 
     public function newPost($attributes)
     {
-        Cache::flush();
+        Cache::forget('showPosts');
         return $this->model->create($attributes);
     }
 

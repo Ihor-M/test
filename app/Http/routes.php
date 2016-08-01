@@ -30,3 +30,11 @@ Route::get('/side-menu', 'PagesController@sideMenu');
 Route::get('/breaking-news', 'PagesController@breakingNews')->name('breaking-news');
 Route::get('/cars-and-vehicles', 'PagesController@carsAndVehicles')->name('carsAndVehicles');
 
+Route::get('api/posts', 'PagesController@apiPosts');
+Route::get('api/breaking-news', 'PagesController@apiBreakingNews');
+Route::get('api/cars-and-vehicles', 'PagesController@apiCarsAndVehicles');
+Route::get('api/technology', 'PagesController@apiTechnologyCategories');
+Route::get('api/sports', 'PagesController@apiSportsCategories');
+Route::get('api/my-articles', 'PagesController@apiMyArticles');
+
+Route::resource('api/articles-form', 'RestController');

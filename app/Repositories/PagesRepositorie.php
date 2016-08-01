@@ -24,7 +24,10 @@ class PagesRepositorie
 
     public function showPosts()
     {
-        return Cache::remember('showPosts', 20, function () {
+//        $x = $this->pages->all(['author']);
+//        dd($x);
+
+        return Cache::remember('showPosts'. request('page'), 20, function () {
             return $this->pages->orderBy('created_at', 'dsc')->paginate(4);
         });
 
@@ -32,39 +35,39 @@ class PagesRepositorie
 
     public function showCategoryCars()
     {
-        return Cache::remember('showCategoryCars', 20, function () {
-            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Cars & Vehicles')->limit(3)->paginate(3);
+        return Cache::remember('showCategoryCars'. request('page'), 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Cars & Vehicles')->paginate(3);
         });
 
     }
 
     public function showCategoryTechnology()
     {
-        return Cache::remember('showCategoryTechnology', 20, function () {
-            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Technology')->limit(3)->paginate(3);
+        return Cache::remember('showCategoryTechnology'. request('page'), 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Technology')->paginate(3);
         });
 
     }
 
     public function showCategorySports()
     {
-        return Cache::remember('showCategorySports', 20, function () {
-            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Sport')->limit(3)->paginate(3);
+        return Cache::remember('showCategorySports'. request('page'), 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->where('category', 'Sport')->paginate(3);
         });
 
     }
 
     public function showMyArticles()
     {
-        return Cache::remember('showMyArticles', 20, function() {
+        return Cache::remember('showMyArticles'. request('page'), 20, function() {
             return $this->pages->orderBy('created_at', 'dsc')->where('author', 'Ihor Mulyk')->paginate(4);
         });
 
     }
     public function getLatest()
     {
-        return Cache::remember('getLatest', 20, function () {
-            return $this->pages->orderBy('created_at', 'dsc')->limit(3)->paginate(3);
+        return Cache::remember('getLatest'. request('page'), 20, function () {
+            return $this->pages->orderBy('created_at', 'dsc')->paginate(3);
         });
 
     }

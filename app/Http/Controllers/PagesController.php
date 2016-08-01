@@ -14,21 +14,22 @@ class PagesController extends Controller
 
     public function __construct(PagesRepositorie $pagesRopo)
     {
+        $this->middleware('cors');
         $this->pagesRopo = $pagesRopo;
     }
 
     public function index()
     {
-        $posts = $this->pagesRopo->showPosts();
-        $carsCategories = $this->pagesRopo->showCategoryCars();
-        $technologyCategories = $this->pagesRopo->showCategoryTechnology();
-        $sportsCategories = $this->pagesRopo->showCategorySports();
-        $latestNews = $this->pagesRopo->getLatest();
+        $posts                  = $this -> pagesRopo -> showPosts();
+        $carsCategories         = $this -> pagesRopo -> showCategoryCars();
+        $technologyCategories   = $this -> pagesRopo -> showCategoryTechnology();
+        $sportsCategories       = $this -> pagesRopo -> showCategorySports();
+        $latestNews             = $this -> pagesRopo -> getLatest();
 
         return view('blog.blog-main', compact('posts', 'paginate', 'carsCategories', 'technologyCategories', 'sportsCategories', 'latestNews'));
     }
 
-    public function breakingNews()
+    public function breakingNews(Request $request)
     {
         $breakingNews = $this->pagesRopo->getLatest();
 
@@ -69,4 +70,50 @@ class PagesController extends Controller
         return view('blog.side-menu');
     }
 
+    public function apiPosts(Request $request)
+    {
+        //$this -> middleware('cors');
+        $posts = $this-> pagesRopo -> showPosts();
+
+        return $posts -> toJson();
+    }
+
+    public function apiBreakingNews(Request $request)
+    {
+        //$this -> middleware('cors');
+        $latestNews = $this -> pagesRopo -> getLatest();
+
+        return $latestNews -> toJson();
+    }
+
+    public function apiCarsAndVehicles()
+    {
+        //$this -> middleware('cors');
+        $carsCategories = $this -> pagesRopo -> showCategoryCars();
+
+        return $carsCategories -> toJson();
+
+    }
+
+    public function apiTechnologyCategories()
+    {
+        //$this -> middleware('cors');
+        $technologyCategories = $this -> pagesRopo -> showCategoryTechnology();
+
+        return $technologyCategories -> toJson();
+    }
+
+    public function apiSportsCategories()
+    {
+        //$this -> middleware('cors');
+        $sportsCategories = $this -> pagesRopo -> showCategorySports();
+
+        return $sportsCategories -> toJson();
+    }
+    public function apiMyArticles()
+    {
+        $titles = $this -> pagesRopo -> showMyArticles();
+
+        return $titles -> toJson();
+    }
 }
